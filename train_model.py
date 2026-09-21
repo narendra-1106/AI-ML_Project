@@ -1,15 +1,18 @@
 """
 =============================================================================
-IPL MATCH WINNER PREDICTION - STAGES 2, 3 & 4: PREPROCESSING, TRAINING & EVALUATION
+IPL MATCH WINNER PREDICTION - COMPLETE TRAINING PIPELINE (STAGES 2 - 5)
 =============================================================================
 This script loads the IPL dataset, performs preprocessing, splits data into
 training and testing sets, constructs a Scikit-Learn Pipeline with OneHotEncoder,
-trains a Decision Tree Classifier, and evaluates performance using actual metrics.
+trains a Decision Tree Classifier, evaluates metrics, saves the model via Joblib,
+and performs test predictions on saved model artifacts.
 =============================================================================
 """
 
+import os
 import pandas as pd
 import numpy as np
+import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
@@ -81,10 +84,8 @@ def train_machine_learning_model(df):
 
 def evaluate_machine_learning_model(model_pipeline, X_test, y_test):
     print("\n--- STEP 6: MODEL EVALUATION ON UNSEEN TEST DATA ---")
-    # Make predictions on test set
     y_pred = model_pipeline.predict(X_test)
     
-    # Calculate real evaluation metrics
     acc = accuracy_score(y_test, y_pred)
     precision = precision_score(y_test, y_pred, average='weighted', zero_division=0)
     recall = recall_score(y_test, y_pred, average='weighted', zero_division=0)
@@ -100,10 +101,6 @@ def evaluate_machine_learning_model(model_pipeline, X_test, y_test):
     print(f"  F1-Score:  {f1 * 100:.2f}%  ({f1:.4f})")
     print("==================================================")
     
-    print("\nConfusion Matrix Shape:", cm.shape)
-    print("\nClassification Report:")
-    print(classification_report(y_test, y_pred, zero_division=0))
-    
     return {
         'accuracy': float(acc),
         'precision': float(precision),
@@ -111,8 +108,40 @@ def evaluate_machine_learning_model(model_pipeline, X_test, y_test):
         'f1_score': float(f1)
     }
 
+def save_model_pipeline(model_pipeline, output_path="model/ipl_model.pkl"):
+    print("\n--- STEP 7: SERIALIZING & SAVING MODEL PIPELINE ---")
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    joblib.dump(model_pipeline, output_path)
+    print(f"Trained ML Pipeline successfully saved to: '{output_path}'")
+
+def test_saved_model_pipeline(model_path="model/ipl_model.pkl"):
+    print("\n--- STEP 8: TESTING SAVED MODEL FILE ON SAMPLE INPUTS ---")
+    if not os.path.exists(model_path):
+        raise FileNotFoundError(f"Model file not found at {model_path}")
+        
+    loaded_pipeline = joblib.load(model_path)
+    
+    # Test sample match inputs
+    sample_matches = [
+        {'team1': 'Mumbai Indians', 'team2': 'Chennai Super Kings', 'toss_winner': 'Mumbai Indians'},
+        {'team1': 'Royal Challengers Bangalore', 'team2': 'Kolkata Knight Riders', 'toss_winner': 'Royal Challengers Bangalore'},
+        {'team1': 'Sunrisers Hyderabad', 'team2': 'Delhi Capitals', 'toss_winner': 'Delhi Capitals'}
+    ]
+    
+    sample_df = pd.DataFrame(sample_matches)
+    predictions = loaded_pipeline.predict(sample_df)
+    
+    print("Sample Match Predictions:")
+    for idx, sample in enumerate(sample_matches):
+        print(f"  Match {idx+1}: {sample['team1']} vs {sample['team2']} (Toss: {sample['toss_winner']})")
+        print(f"  ==> Predicted Winner: {predictions[idx]}\n")
+
 if __name__ == "__main__":
     dataset_path = "dataset/matches.csv"
+    model_save_path = "model/ipl_model.pkl"
+    
     df = load_and_preprocess_data(dataset_path)
     pipeline, X_train, X_test, y_train, y_test = train_machine_learning_model(df)
-    metrics = evaluate_machine_learning_model(pipeline, X_test, y_test)
+    evaluate_machine_learning_model(pipeline, X_test, y_test)
+    save_model_pipeline(pipeline, model_save_path)
+    test_saved_model_pipeline(model_save_path)
