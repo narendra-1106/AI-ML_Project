@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard - IPL ML Predictor</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('home') }}" class="nav-logo">
+                <span class="logo-icon">🏏</span>
+                <span class="logo-text">IPL <span class="highlight">Predictor</span></span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('prediction_page') }}">Predict Match</a></li>
+                <li><a href="{{ url_for('dashboard') }}" class="active">Dashboard</a></li>
+                <li><a href="{{ url_for('history') }}">History</a></li>
+                <li><a href="{{ url_for('about') }}">About Project</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- DASHBOARD SECTION -->
+    <section class="dashboard-section">
+        <div class="dashboard-container">
+            
+            <div class="page-header">
+                <span class="badge">Historical Dataset Insights</span>
+                <h1>IPL Analytics <span class="gradient-text">Dashboard</span></h1>
+                <p>Comprehensive statistical breakdown of historical IPL matches, franchise wins, and toss impacts.</p>
+            </div>
+
+            <!-- KPI STATS CARDS GRID -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🏏</div>
+                    <div class="stat-info">
+                        <span class="stat-number">{{ stats.total_matches }}</span>
+                        <span class="stat-label">Total Matches</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">🛡️</div>
+                    <div class="stat-info">
+                        <span class="stat-number">{{ stats.total_teams }}</span>
+                        <span class="stat-label">Active Franchises</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-info">
+                        <span class="stat-number">{{ stats.total_seasons }}</span>
+                        <span class="stat-label">IPL Seasons</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">🪙</div>
+                    <div class="stat-info">
+                        <span class="stat-number">{{ stats.toss_win_pct }}%</span>
+                        <span class="stat-label">Toss Winner Win Rate</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CHARTS GRID -->
+            <div class="charts-grid">
+                <!-- CHART 1: TEAM TOTAL WINS -->
+                <div class="chart-card wide-chart">
+                    <div class="chart-header">
+                        <h3>IPL Franchise Total Match Wins</h3>
+                        <span class="chart-subtitle">Historical dataset totals across all seasons</span>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="teamWinsChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- CHART 2: TOSS IMPACT DOUGHNUT CHART -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Toss Winner vs Match Winner Analysis</h3>
+                        <span class="chart-subtitle">Match outcome correlation with toss result</span>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="tossImpactChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 IPL Match Winner Prediction ML Project | Built with Flask & Chart.js</p>
+        </div>
+    </footer>
+
+    <!-- INJECT DASHBOARD DATA FOR CHART.JS -->
+    <script>
+        const dashboardData = {
+            teamWinLabels: {{ stats.team_win_labels | tojson }},
+            teamWinData: {{ stats.team_win_data | tojson }},
+            tossImpactLabels: {{ stats.toss_impact_labels | tojson }},
+            tossImpactData: {{ stats.toss_impact_data | tojson }}
+        };
+    </script>
+
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
