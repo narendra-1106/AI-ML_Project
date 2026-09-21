@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predict Match Winner - IPL ML Predictor</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('home') }}" class="nav-logo">
+                <span class="logo-icon">🏏</span>
+                <span class="logo-text">IPL <span class="highlight">Predictor</span></span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('prediction_page') }}" class="active">Predict Match</a></li>
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('history') }}">History</a></li>
+                <li><a href="{{ url_for('about') }}">About Project</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- PREDICTION SECTION -->
+    <section class="prediction-section">
+        <div class="form-container">
+            
+            <div class="page-header">
+                <span class="badge">Machine Learning Classifier</span>
+                <h1>IPL Match Winner <span class="gradient-text">Prediction</span></h1>
+                <p>Select the competing IPL franchises and toss winner to compute the predicted match winner.</p>
+            </div>
+
+            <!-- ERROR ALERT BOX -->
+            {% if error %}
+            <div class="alert alert-error">
+                <span class="alert-icon">⚠️</span>
+                <span>{{ error }}</span>
+            </div>
+            {% endif %}
+
+            <!-- PREDICTION FORM -->
+            <form action="{{ url_for('predict') }}" method="POST" class="prediction-form" id="predictionForm">
+                
+                <div class="form-grid">
+                    <!-- TEAM 1 SELECT -->
+                    <div class="form-group">
+                        <label for="team1">
+                            <span class="label-icon">🏆</span> Select Team 1
+                        </label>
+                        <select name="team1" id="team1" class="form-control" required>
+                            <option value="" disabled selected>-- Select Team 1 --</option>
+                            {% for team in teams %}
+                            <option value="{{ team }}" {% if result and result.team1 == team %}selected{% endif %}>{{ team }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- TEAM 2 SELECT -->
+                    <div class="form-group">
+                        <label for="team2">
+                            <span class="label-icon">🛡️</span> Select Team 2
+                        </label>
+                        <select name="team2" id="team2" class="form-control" required>
+                            <option value="" disabled selected>-- Select Team 2 --</option>
+                            {% for team in teams %}
+                            <option value="{{ team }}" {% if result and result.team2 == team %}selected{% endif %}>{{ team }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <!-- TOSS WINNER SELECT -->
+                <div class="form-group margin-top">
+                    <label for="toss_winner">
+                        <span class="label-icon">🪙</span> Select Toss Winner
+                    </label>
+                    <select name="toss_winner" id="toss_winner" class="form-control" required>
+                        <option value="" disabled selected>-- Select Toss Winner --</option>
+                        {% for team in teams %}
+                        <option value="{{ team }}" {% if result and result.toss_winner == team %}selected{% endif %}>{{ team }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- SUBMIT BUTTON -->
+                <button type="submit" class="btn btn-primary btn-block">
+                    <span>Predict Winner</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+            </form>
+
+            <!-- PREDICTION RESULT CARD -->
+            {% if result %}
+            <div class="result-card-container">
+                <div class="result-card">
+                    <div class="result-header">
+                        <span class="result-badge">PREDICTION RESULT</span>
+                        <span class="model-name">Decision Tree Classifier</span>
+                    </div>
+                    
+                    <div class="winner-display">
+                        <div class="trophy-icon">🏆</div>
+                        <div class="winner-label">Predicted Match Winner</div>
+                        <h2 class="winner-name gradient-text">{{ result.predicted_winner }}</h2>
+                    </div>
+
+                    <div class="match-details-box">
+                        <div class="detail-item">
+                            <span class="detail-label">Matchup:</span>
+                            <span class="detail-value">{{ result.team1 }} <strong class="vs-text">vs</strong> {{ result.team2 }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Toss Winner:</span>
+                            <span class="detail-value">🪙 {{ result.toss_winner }}</span>
+                        </div>
+                    </div>
+
+                    <!-- PROBABILITY METER -->
+                    <div class="probability-section">
+                        <div class="prob-header">
+                            <span>Win Probability Estimation</span>
+                        </div>
+                        <div class="prob-bar-wrapper">
+                            <div class="prob-bar team1-bar" style="width: {{ result.team1_prob }}%;">
+                                {{ result.team1_prob }}%
+                            </div>
+                            <div class="prob-bar team2-bar" style="width: {{ result.team2_prob }}%;">
+                                {{ result.team2_prob }}%
+                            </div>
+                        </div>
+                        <div class="prob-legend">
+                            <span class="legend-team1">🔵 {{ result.team1 }}</span>
+                            <span class="legend-team2">🟡 {{ result.team2 }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 IPL Match Winner Prediction ML Project | Built with Flask & Scikit-Learn</p>
+        </div>
+    </footer>
+
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
