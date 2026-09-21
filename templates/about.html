@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Project - IPL ML Predictor</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('home') }}" class="nav-logo">
+                <span class="logo-icon">🏏</span>
+                <span class="logo-text">IPL <span class="highlight">Predictor</span></span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('prediction_page') }}">Predict Match</a></li>
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('history') }}">History</a></li>
+                <li><a href="{{ url_for('about') }}" class="active">About Project</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ABOUT SECTION -->
+    <section class="about-section">
+        <div class="about-container">
+            
+            <div class="page-header">
+                <span class="badge">Academic AI/ML Mini Project</span>
+                <h1>About the <span class="gradient-text">Project</span></h1>
+                <p>Technical architecture, methodology, machine learning model details, and viva reference guide.</p>
+            </div>
+
+            <!-- ABOUT CARDS GRID -->
+            <div class="about-grid">
+                
+                <!-- PROBLEM STATEMENT -->
+                <div class="about-card">
+                    <div class="card-icon">📌</div>
+                    <h3>Problem Statement</h3>
+                    <p>
+                        Cricket match outcomes depend on multiple pre-match and in-game factors. The objective of this project is to build a machine learning model capable of predicting the winner of an IPL match based on historical match parameters such as competing teams and toss decisions.
+                    </p>
+                </div>
+
+                <!-- OBJECTIVES -->
+                <div class="about-card">
+                    <div class="card-icon">🎯</div>
+                    <h3>Project Objectives</h3>
+                    <ul class="about-list">
+                        <li>Preprocess and standardize historical IPL match data across seasons.</li>
+                        <li>Build a Scikit-Learn pipeline with OneHotEncoder and Decision Tree Classifier.</li>
+                        <li>Evaluate real classification metrics (Accuracy, Precision, Recall, F1-Score).</li>
+                        <li>Deploy an interactive web application with Flask and SQLite database persistence.</li>
+                    </ul>
+                </div>
+
+                <!-- DATASET OVERVIEW -->
+                <div class="about-card">
+                    <div class="card-icon">📁</div>
+                    <h3>Dataset Specifications</h3>
+                    <p>
+                        The dataset (<code>matches.csv</code>) consists of <strong>1,212 historical IPL matches</strong> spanning from 2008 to 2024/2025. It includes match parameters, team names, toss decisions, and final match outcomes across 13 active franchises.
+                    </p>
+                </div>
+
+                <!-- ML ALGORITHM -->
+                <div class="about-card">
+                    <div class="card-icon">🌲</div>
+                    <h3>Machine Learning Algorithm</h3>
+                    <p>
+                        <strong>Supervised Classification: Decision Tree Classifier</strong><br>
+                        The model splits decision nodes based on Information Gain / Entropy. Features are transformed using a <code>ColumnTransformer</code> with <code>OneHotEncoder</code> wrapped inside a unified Scikit-learn Pipeline.
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- TECH STACK SECTION -->
+            <div class="tech-section margin-top-lg">
+                <h2 class="section-title">Technology <span class="gradient-text">Stack</span></h2>
+                <div class="tech-grid">
+                    <div class="tech-badge"><span>🐍 Python 3.13</span></div>
+                    <div class="tech-badge"><span>🌶️ Flask</span></div>
+                    <div class="tech-badge"><span>🤖 Scikit-Learn</span></div>
+                    <div class="tech-badge"><span>🐼 Pandas</span></div>
+                    <div class="tech-badge"><span>🔢 NumPy</span></div>
+                    <div class="tech-badge"><span>📦 Joblib</span></div>
+                    <div class="tech-badge"><span>💾 SQLite</span></div>
+                    <div class="tech-badge"><span>📊 Chart.js</span></div>
+                    <div class="tech-badge"><span>🎨 HTML5 / CSS3</span></div>
+                </div>
+            </div>
+
+            <!-- FUTURE SCOPE -->
+            <div class="about-card wide-card margin-top-lg">
+                <div class="card-icon">🚀</div>
+                <h3>Future Enhancements & Scope</h3>
+                <p>
+                    Future iterations of this project can incorporate live venue pitch analytics, weather conditions, player ELO ratings, detailed ball-by-ball player performance, and ensemble models (Random Forest, XGBoost) to further increase predictive accuracy.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 IPL Match Winner Prediction ML Project | Built with Flask & Scikit-Learn</p>
+        </div>
+    </footer>
+
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
