@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPL Match Winner Prediction - ML Project</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('home') }}" class="nav-logo">
+                <span class="logo-icon">🏏</span>
+                <span class="logo-text">IPL <span class="highlight">Predictor</span></span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('home') }}" class="active">Home</a></li>
+                <li><a href="{{ url_for('prediction_page') }}">Predict Match</a></li>
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('history') }}">History</a></li>
+                <li><a href="{{ url_for('about') }}">About Project</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <span class="badge">Machine Learning Powered</span>
+                <h1>IPL Match Winner <span class="gradient-text">Prediction Engine</span></h1>
+                <p class="hero-description">
+                    Predict IPL match outcomes using supervised machine learning trained on historical Indian Premier League data. Evaluate head-to-head match dynamics and toss decisions instantly.
+                </p>
+                <div class="hero-actions">
+                    <a href="{{ url_for('prediction_page') }}" class="btn btn-primary">
+                        <span>Predict Match Now</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">View Analytics</a>
+                </div>
+            </div>
+            
+            <div class="hero-card">
+                <div class="match-preview-card">
+                    <div class="card-header">
+                        <span class="live-tag">LIVE PREDICTOR</span>
+                        <span class="season-tag">IPL Historical Dataset</span>
+                    </div>
+                    <div class="versus-container">
+                        <div class="team-box">
+                            <div class="team-avatar mi">MI</div>
+                            <div class="team-name">Mumbai Indians</div>
+                        </div>
+                        <div class="vs-circle">VS</div>
+                        <div class="team-box">
+                            <div class="team-avatar csk">CSK</div>
+                            <div class="team-name">Chennai Super Kings</div>
+                        </div>
+                    </div>
+                    <div class="card-footer-info">
+                        <span>Toss Winner: Mumbai Indians</span>
+                        <span class="model-badge">Decision Tree Model</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- FEATURES SECTION -->
+    <section class="features-section">
+        <div class="section-container">
+            <h2 class="section-title">Project Key <span class="gradient-text">Features</span></h2>
+            <p class="section-subtitle">Supervised machine learning application architecture built with Python & Scikit-learn</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>Decision Tree Classifier</h3>
+                    <p>Uses a trained Decision Tree Classifier pipeline with OneHotEncoder for categorical feature transformation.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Historical Analytics</h3>
+                    <p>Analyzes 1,200+ historical IPL matches across teams, seasons, and toss win-loss statistics.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Real-time Inference</h3>
+                    <p>Instant prediction generation via Flask backend loading pre-compiled Joblib pipeline artifacts.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💾</div>
+                    <h3>SQLite History</h3>
+                    <p>Automatically records prediction submissions and timestamps inside a relational SQLite database.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 IPL Match Winner Prediction ML Project | Built with Flask, Scikit-Learn & SQLite</p>
+        </div>
+    </footer>
+
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
