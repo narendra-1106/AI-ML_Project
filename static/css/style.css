@@ -273,15 +273,17 @@ body {
     font-size: 0.75rem;
 }
 
-/* PREDICTION & DASHBOARD SECTIONS */
+/* SECTIONS (PREDICTION, DASHBOARD, HISTORY) */
 .prediction-section,
-.dashboard-section {
+.dashboard-section,
+.history-section {
     padding: 4rem 1.5rem;
     flex: 1;
 }
 
 .form-container,
-.dashboard-container {
+.dashboard-container,
+.history-container {
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -364,6 +366,93 @@ body {
 .form-control:focus {
     border-color: var(--primary-gold);
     box-shadow: 0 0 0 3px rgba(255, 159, 28, 0.2);
+}
+
+/* HISTORY TABLE */
+.table-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.history-table th {
+    padding: 1rem 1.2rem;
+    background: var(--bg-input);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.history-table td {
+    padding: 1.1rem 1.2rem;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.95rem;
+}
+
+.history-table tr:hover td {
+    background: var(--bg-card-hover);
+}
+
+.id-cell {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    color: var(--accent-blue);
+}
+
+.team-chip {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.3rem 0.7rem;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+}
+
+.winner-badge {
+    background: rgba(255, 159, 28, 0.15);
+    color: var(--primary-gold);
+    border: 1px solid rgba(255, 159, 28, 0.3);
+    padding: 0.35rem 0.85rem;
+    border-radius: 50px;
+    font-weight: 700;
+}
+
+.timestamp-cell {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem 1.5rem;
+}
+
+.empty-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    color: var(--text-muted);
+
 }
 
 /* RESULT CARD */

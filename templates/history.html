@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction History - IPL ML Predictor</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('home') }}" class="nav-logo">
+                <span class="logo-icon">🏏</span>
+                <span class="logo-text">IPL <span class="highlight">Predictor</span></span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('prediction_page') }}">Predict Match</a></li>
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('history') }}" class="active">History</a></li>
+                <li><a href="{{ url_for('about') }}">About Project</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HISTORY SECTION -->
+    <section class="history-section">
+        <div class="history-container">
+            
+            <div class="page-header">
+                <span class="badge">SQLite Database Storage</span>
+                <h1>Prediction <span class="gradient-text">History</span></h1>
+                <p>Audit log of all machine learning winner predictions submitted through the web application.</p>
+            </div>
+
+            <div class="table-card">
+                {% if predictions and predictions|length > 0 %}
+                <div class="table-responsive">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th># ID</th>
+                                <th>Team 1</th>
+                                <th>Team 2</th>
+                                <th>Toss Winner</th>
+                                <th>Predicted Winner</th>
+                                <th>Timestamp</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in predictions %}
+                            <tr>
+                                <td class="id-cell">#{{ row['id'] }}</td>
+                                <td><span class="team-chip">{{ row['team1'] }}</span></td>
+                                <td><span class="team-chip">{{ row['team2'] }}</span></td>
+                                <td>🪙 {{ row['toss_winner'] }}</td>
+                                <td>
+                                    <span class="winner-badge">
+                                        🏆 {{ row['predicted_winner'] }}
+                                    </span>
+                                </td>
+                                <td class="timestamp-cell">{{ row['timestamp'] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <div class="empty-icon">📜</div>
+                    <h3>No Predictions Recorded Yet</h3>
+                    <p>Make your first IPL match prediction to see it stored in the SQLite database.</p>
+                    <a href="{{ url_for('prediction_page') }}" class="btn btn-primary margin-top">Predict Now</a>
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 IPL Match Winner Prediction ML Project | Built with Flask & SQLite</p>
+        </div>
+    </footer>
+
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
