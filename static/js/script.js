@@ -3,6 +3,29 @@
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
+    
+    // ----------------------------------------------------------------------
+    // 0. MOBILE NAVBAR HAMBURGER TOGGLE
+    // ----------------------------------------------------------------------
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    if (navToggle && navLinks) {
+        navToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navLinks.classList.toggle('active');
+            navToggle.classList.toggle('active');
+        });
+
+        // Close mobile nav when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navToggle.contains(e.target) && !navLinks.contains(e.target)) {
+                navLinks.classList.remove('active');
+                navToggle.classList.remove('active');
+            }
+        });
+    }
+
     // ----------------------------------------------------------------------
     // 1. DYNAMIC FORM INTERACTIVITY (PREDICTION PAGE)
     // ----------------------------------------------------------------------
@@ -98,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     },
                     scales: {
                         x: {
-                            ticks: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', size: 11 } },
+                            ticks: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', size: 10 } },
                             grid: { color: 'rgba(255, 255, 255, 0.05)' }
                         },
                         y: {
